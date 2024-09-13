@@ -1,0 +1,10 @@
+skills:
+  sorcery-restore/sorcery:
+    abilities:
+      - sorcery-restore/meditation
+      - sorcery-restore/sorcery_proficiency
+    options:
+      enabled: true
+      max_level: 100
+      check_cancelled: true
+      check_multiplier_permissions: true

@@ -1,0 +1,8 @@
+# Only 1 source of each type
+sources:
+  use_mana_skill:
+    type: sorcery-restore
+    xp: 2 # x mana point
+    display_name: "Use mana"
+    menu_item:
+      material: glowstone_dust
