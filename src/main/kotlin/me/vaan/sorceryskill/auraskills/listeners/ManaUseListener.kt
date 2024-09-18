@@ -2,6 +2,7 @@ package me.vaan.sorceryskill.auraskills.listeners
 
 import dev.aurelium.auraskills.api.event.mana.ManaAbilityActivateEvent
 import me.vaan.sorceryskill.SorceryRestore
+import me.vaan.sorceryskill.auraskills.SorceryAbilities
 import me.vaan.sorceryskill.auraskills.SorcerySkill
 import me.vaan.sorceryskill.auraskills.sources.ManaSource
 import me.vaan.sorceryskill.utils.Utils
@@ -18,5 +19,7 @@ object ManaUseListener : Listener {
         val award = source.xp * event.manaUsed
         SorceryRestore.debug("${this::class} awarded $award to ${event.player}")
         skillUser.addSkillXp(SorcerySkill.SORCERY, award)
+
+        SorceryAbilities.OVERLOAD.callHandler(event.player, event)
     }
 }

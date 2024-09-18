@@ -10,9 +10,10 @@ object SorcerySkill {
         .builder(NamespacedId.of(PLUGIN_NAME, "sorcery"))
         .displayName("Sorcery")
         .description("&7Use mana abilities to earn Sorcery {xp_unit}")
-        //.abilities(*(CannonAbilities.entries.filter { it != CannonAbilities.CANNON_PROFICIENCY }.map{ it.ability }.toTypedArray()))
+        .abilities(SorceryAbilities.MEDITATION.ability,
+                   SorceryAbilities.OVERLOAD.ability)
         //.manaAbility(CannonManaAbilities.STORM_BLAST)
-        //.xpMultiplierAbility(CannonAbilities.CANNON_PROFICIENCY.ability)
+        .xpMultiplierAbility(SorceryAbilities.SORCERY_PROFICIENCY.ability)
         .item(
             ItemContext
             .builder()

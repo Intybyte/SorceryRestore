@@ -5,11 +5,15 @@ abilities:
     value_per_level: 2.0
     unlock: 1
     level_up: 5
-    max_level: 0
   sorcery-restore/sorcery_proficiency:
     enabled: true
     base_value: 10.0
     value_per_level: 10.0
     unlock: 2
     level_up: 5
-    max_level: 0
+  sorcery-restore/overload:
+    enabled: true
+    base_value: 1.0
+    value_per_level: 1.0
+    unlock: 3
+    level_up: 5

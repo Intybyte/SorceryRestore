@@ -3,6 +3,7 @@ skills:
     abilities:
       - sorcery-restore/meditation
       - sorcery-restore/sorcery_proficiency
+      - sorcery-restore/overload
     options:
       enabled: true
       max_level: 100

@@ -7,11 +7,12 @@ import me.vaan.sorceryskill.utils.Utils
 import org.bukkit.entity.Player
 
 fun meditationHandler(ability: CustomAbility, player: Player, args: Array<out Any>) {
+    if (!player.isSneaking) return
+    if (!ability.isEnabled) return
+
     val event = args[0] as ManaRegenerateEvent
 
-    if (!player.isSneaking) return
-
-    val multiplier = 1.0 + Utils.getSkillValue(player, ability)
+    val multiplier = 1.0 + Utils.getSkillValue(player, ability) / 100.0
     SorceryRestore.debug("meditationHandler called - multiplier : $multiplier")
     event.amount *= multiplier
 }
