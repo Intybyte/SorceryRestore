@@ -1,0 +1,14 @@
+mana_abilities:
+  sorcery-restore/mana_blast:
+    enabled: true
+    base_value: 0.75
+    value_per_level: 0.75
+    base_cooldown: 5
+    cooldown_per_level: 0
+    base_mana_cost: 15.0
+    mana_cost_per_level: 5.0
+    unlock: 6
+    level_up: 6
+    max_level: 0
+    enable_message: true
+    enable_sound: true
