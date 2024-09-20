@@ -5,6 +5,7 @@ import dev.aurelium.auraskills.api.registry.NamespacedRegistry
 import me.vaan.sorceryskill.auraskills.SorceryAbilities
 import me.vaan.sorceryskill.auraskills.SorceryManaBlast
 import me.vaan.sorceryskill.auraskills.SorcerySkill
+import me.vaan.sorceryskill.auraskills.listeners.CastListener
 import me.vaan.sorceryskill.auraskills.listeners.ManaRegenListener
 import me.vaan.sorceryskill.auraskills.listeners.ManaUseListener
 import me.vaan.sorceryskill.auraskills.sources.ManaSource
@@ -68,6 +69,7 @@ class SorceryRestore : JavaPlugin() {
         val pm = this.server.pluginManager
         pm.registerEvents(ManaUseListener, this)
         pm.registerEvents(ManaRegenListener, this)
+        pm.registerEvents(CastListener, this)
     }
 
     private fun registerSourceTypes() {
