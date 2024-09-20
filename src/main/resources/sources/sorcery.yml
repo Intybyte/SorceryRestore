@@ -7,7 +7,7 @@ default:
     material: '{block}'
 sources:
   use_mana_skill:
-    type: sorcery-restore
+    type: sorcery-restore/manasource
     xp: 2.0 # x mana point
     display_name: "Use mana"
     menu_item:

@@ -2,6 +2,9 @@ package me.vaan.sorceryskill
 
 import dev.aurelium.auraskills.api.AuraSkillsApi
 import dev.aurelium.auraskills.api.registry.NamespacedRegistry
+import me.vaan.sorceryskill.auraskills.SorceryAbilities
+import me.vaan.sorceryskill.auraskills.SorceryManaBlast
+import me.vaan.sorceryskill.auraskills.SorcerySkill
 import me.vaan.sorceryskill.auraskills.listeners.ManaRegenListener
 import me.vaan.sorceryskill.auraskills.listeners.ManaUseListener
 import me.vaan.sorceryskill.auraskills.sources.ManaSource
@@ -53,6 +56,11 @@ class SorceryRestore : JavaPlugin() {
         saveResources()
 
         registerSourceTypes()
+
+        SorceryAbilities.loadAbilities()
+        SorceryManaBlast.loadManaAbility()
+        registry.registerSkill(SorcerySkill.SORCERY)
+
         registerListeners()
     }
 
