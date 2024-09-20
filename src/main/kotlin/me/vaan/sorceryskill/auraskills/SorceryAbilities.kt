@@ -25,9 +25,9 @@ enum class SorceryAbilities(val ability: CustomAbility, private val handler: Abi
         , ::meditationHandler),
     SORCERY_PROFICIENCY(
         CustomAbility.builder(NamespacedId.of(PLUGIN_NAME, "sorcery_proficiency"))
-            .displayName("Cannon Proficiency")
-            .description("Gain {value}% more XP when using cannons.")
-            .info("+{value}% Gunnery XP ")
+            .displayName("Sorcery Proficiency")
+            .description("Gain {value}% more XP from sorcery sources.")
+            .info("+{value}% Sorcery XP ")
             .baseValue(10.0)
             .valuePerLevel(10.0)
             .unlock(2)

@@ -9,7 +9,7 @@ object SorcerySkill {
     val SORCERY = CustomSkill
         .builder(NamespacedId.of(PLUGIN_NAME, "sorcery"))
         .displayName("Sorcery")
-        .description("&7Use mana abilities to earn Sorcery {xp_unit}")
+        .description("&7Use mana abilities to earn sorcery xp")
         .abilities(SorceryAbilities.MEDITATION.ability,
                    SorceryAbilities.OVERLOAD.ability)
         //.manaAbility(CannonManaAbilities.STORM_BLAST)
