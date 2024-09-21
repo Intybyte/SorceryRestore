@@ -9,6 +9,7 @@ import me.vaan.sorceryskill.auraskills.listeners.CastListener
 import me.vaan.sorceryskill.auraskills.listeners.ManaRegenListener
 import me.vaan.sorceryskill.auraskills.listeners.ManaUseListener
 import me.vaan.sorceryskill.auraskills.sources.ManaSource
+import me.vaan.sorceryskill.utils.Cooldown
 import me.vaan.sorceryskill.utils.Utils
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.logging.Logger
@@ -62,6 +63,7 @@ class SorceryRestore : JavaPlugin() {
         SorceryManaBlast.loadManaAbility()
         registry.registerSkill(SorcerySkill.SORCERY)
 
+        Cooldown.setCooldown(CastListener::class, 5 * 1000L)
         registerListeners()
     }
 

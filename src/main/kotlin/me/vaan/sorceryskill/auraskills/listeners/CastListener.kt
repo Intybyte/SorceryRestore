@@ -3,6 +3,7 @@ package me.vaan.sorceryskill.auraskills.listeners
 import dev.aurelium.auraskills.api.event.mana.ManaAbilityActivateEvent
 import me.vaan.sorceryskill.SorceryRestore
 import me.vaan.sorceryskill.auraskills.SorceryManaBlast
+import me.vaan.sorceryskill.utils.Cooldown
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Material
@@ -41,6 +42,7 @@ object CastListener : Listener {
 
             val castSpell = activationMap.getOrPut(uuid) { false }
             if (!castSpell) return
+            if (!Cooldown.checkCooldown(this::class, player.name)) return
 
             val skillPlayer = SorceryRestore.api().getUser(uuid)
             val level = skillPlayer.getManaAbilityLevel(SorceryManaBlast.BLAST)
