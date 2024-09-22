@@ -2,6 +2,8 @@ package me.vaan.sorceryskill
 
 import dev.aurelium.auraskills.api.AuraSkillsApi
 import dev.aurelium.auraskills.api.registry.NamespacedRegistry
+import me.vaan.CooldownManager
+import me.vaan.interfaces.SimpleDebugger
 import me.vaan.sorceryskill.auraskills.SorceryAbilities
 import me.vaan.sorceryskill.auraskills.SorceryManaBlast
 import me.vaan.sorceryskill.auraskills.SorcerySkill
@@ -9,14 +11,13 @@ import me.vaan.sorceryskill.auraskills.listeners.CastListener
 import me.vaan.sorceryskill.auraskills.listeners.ManaRegenListener
 import me.vaan.sorceryskill.auraskills.listeners.ManaUseListener
 import me.vaan.sorceryskill.auraskills.sources.ManaSource
-import me.vaan.sorceryskill.utils.Cooldown
 import me.vaan.sorceryskill.utils.Utils
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.logging.Logger
 
 class SorceryRestore : JavaPlugin() {
 
-    companion object {
+    companion object StaticStuff : SimpleDebugger {
         @JvmStatic
         private lateinit var auraSkills: AuraSkillsApi
         @JvmStatic
@@ -27,6 +28,8 @@ class SorceryRestore : JavaPlugin() {
         private lateinit var log: Logger
         @JvmStatic
         private var debug: Boolean = false
+        @JvmStatic
+        private lateinit var cooldownManager: CooldownManager<String>
 
         fun api(): AuraSkillsApi {
             return auraSkills
@@ -40,9 +43,13 @@ class SorceryRestore : JavaPlugin() {
             return registry
         }
 
-        fun debug(str: String) {
+        override fun debug(s: String) {
             if (debug)
-                log.info(str)
+                log.info(s)
+        }
+
+        fun cooldown(): CooldownManager<String> {
+            return cooldownManager
         }
 
         fun logger(): Logger {
@@ -63,7 +70,8 @@ class SorceryRestore : JavaPlugin() {
         SorceryManaBlast.loadManaAbility()
         registry.registerSkill(SorcerySkill.SORCERY)
 
-        Cooldown.setCooldown(CastListener::class, 5 * 1000L)
+        cooldownManager = CooldownManager()
+        cooldownManager.setCooldown("CastListener", 5 * 1000L)
         registerListeners()
     }
 
