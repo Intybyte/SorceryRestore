@@ -3,6 +3,7 @@ package me.vaan.sorceryskill.auraskills.listeners
 import dev.aurelium.auraskills.api.event.mana.ManaAbilityActivateEvent
 import me.vaan.sorceryskill.SorceryRestore
 import me.vaan.sorceryskill.auraskills.SorceryManaBlast
+import me.vaan.sorceryskill.utils.StorageConfig
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Material
@@ -59,10 +60,10 @@ object CastListener : Listener {
 
     private fun launchProjectile(shooter: Player, damage: Double) {
         object : BukkitRunnable() {
-            val hittedEntites = HashMap<UUID, Boolean>()
+            val hitEntities = HashMap<UUID, Boolean>()
             val currentLocation: Location = shooter.eyeLocation.clone()
             val velocity: Vector = currentLocation.direction.normalize().multiply(1) //speed
-            val maxDistance: Int = 50 // Maximum distance the projectile will travel (in blocks)
+            val maxDistance: Int = StorageConfig.maxSpellDistance
             var traveledDistance: Int = 0
 
             override fun run() {
@@ -80,11 +81,11 @@ object CastListener : Listener {
                 for (target in shooter.world.livingEntities) {
                     if (target.isDead) continue
                     if (target == shooter) continue // Don't hit the shooter
-                    if (hittedEntites[target.uniqueId] == true) continue
+                    if (hitEntities[target.uniqueId] == true) continue
 
-                    if (target.location.distance(currentLocation) >= 1.5) continue
+                    if (target.location.distance(currentLocation) >= StorageConfig.spellAreaOfEffect) continue
 
-                    hittedEntites[target.uniqueId] = true
+                    hitEntities[target.uniqueId] = true
                     SorceryRestore.logger().info("Damage dealt $damage")
                     target.damage(damage / 2.0, shooter)
                     return

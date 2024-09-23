@@ -12,6 +12,7 @@ import me.vaan.sorceryskill.auraskills.listeners.CastListener
 import me.vaan.sorceryskill.auraskills.listeners.ManaRegenListener
 import me.vaan.sorceryskill.auraskills.listeners.ManaUseListener
 import me.vaan.sorceryskill.auraskills.sources.ManaSource
+import me.vaan.sorceryskill.utils.StorageConfig
 import me.vaan.sorceryskill.utils.Utils
 import me.vaan.sorceryskill.utils.setCastCooldowns
 import org.bukkit.event.EventHandler
@@ -31,8 +32,6 @@ class SorceryRestore : JavaPlugin(), Listener {
         @JvmStatic
         private lateinit var log: Logger
         @JvmStatic
-        private var debug: Boolean = false
-        @JvmStatic
         private lateinit var cooldownManager: CooldownManager<String>
 
         fun api(): AuraSkillsApi {
@@ -48,7 +47,7 @@ class SorceryRestore : JavaPlugin(), Listener {
         }
 
         override fun debug(s: String) {
-            if (debug)
+            if (StorageConfig.debug)
                 log.info(s)
         }
 
@@ -103,7 +102,10 @@ class SorceryRestore : JavaPlugin(), Listener {
         saveResource("abilities.yml", false)
         saveResource("skills.yml", false)
         saveResource("mana_abilities.yml", false)
-        saveResource("config.yml", false)
-        debug = config.getBoolean("debug")
+        saveDefaultConfig()
+
+        StorageConfig.debug = config.getBoolean("debug")
+        StorageConfig.maxSpellDistance = config.getInt("max-spell-distance")
+        StorageConfig.spellAreaOfEffect = config.getDouble("spell-area-of-effect")
     }
 }
