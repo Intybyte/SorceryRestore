@@ -8,7 +8,7 @@ import org.bukkit.entity.Player
 import kotlin.reflect.KClass
 
 object Utils {
-    val PLUGIN_NAME = "sorcery-restore"
+    const val PLUGIN_NAME = "sorcery-restore"
     val sourceMap = HashMap<KClass<out XpSource>, XpSource>()
 
     inline fun <reified T : XpSource> firstSource(): T {

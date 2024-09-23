@@ -1,4 +1,3 @@
-# Only 1 source of each type
 default:
   type: block
   trigger: break
@@ -6,7 +5,7 @@ default:
   menu_item:
     material: '{block}'
 sources:
-  use_mana_skill:
+  use_mana_skill: # Only 1 source of this type
     type: sorcery-restore/manasource
     xp: 2.0 # x mana point
     display_name: "Use mana"

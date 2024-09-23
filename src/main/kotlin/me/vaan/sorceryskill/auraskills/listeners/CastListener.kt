@@ -64,9 +64,10 @@ object CastListener : Listener {
 
     private fun launchProjectile(shooter: Player, damage: Double) {
         object : BukkitRunnable() {
-            var currentLocation: Location = shooter.eyeLocation.clone()
-            var velocity: Vector = currentLocation.direction.normalize().multiply(0.6)
-            var maxDistance: Int = 50 // Maximum distance the projectile will travel (in blocks)
+            val hittedEntites = HashMap<UUID, Boolean>()
+            val currentLocation: Location = shooter.eyeLocation.clone()
+            val velocity: Vector = currentLocation.direction.normalize().multiply(0.6)
+            val maxDistance: Int = 50 // Maximum distance the projectile will travel (in blocks)
             var traveledDistance: Int = 0
 
             override fun run() {
@@ -84,9 +85,11 @@ object CastListener : Listener {
                 for (target in shooter.world.livingEntities) {
                     if (target.isDead) continue
                     if (target == shooter) continue // Don't hit the shooter
+                    if (hittedEntites[target.uniqueId] == true) continue
 
                     if (target.location.distance(currentLocation) >= 1.5) continue
 
+                    hittedEntites[target.uniqueId] = true
                     target.damage(damage, shooter)
 
                     cancel()
