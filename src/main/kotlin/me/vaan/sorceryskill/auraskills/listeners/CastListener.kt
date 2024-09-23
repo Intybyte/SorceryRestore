@@ -25,11 +25,8 @@ object CastListener : Listener {
         val player = event.player
         val uuid = player.uniqueId
 
+        if (player.inventory.itemInMainHand.type != Material.BLAZE_ROD) return
         if (event.action.isRightClick) {
-            SorceryRestore.debug("${this::class} Right click")
-
-            if (player.inventory.itemInMainHand.type != Material.BLAZE_ROD) return
-
             activationMap.compute(uuid) { _, v ->
                 val ret = if (v == null) true else !v
                 player.sendMessage("SPELL CASTING - " + if (ret) "Enabled" else "Disabled")
@@ -37,8 +34,6 @@ object CastListener : Listener {
                 return@compute ret
             }
         } else if (event.action.isLeftClick) {
-            SorceryRestore.debug("${this::class} Left click")
-
             val castSpell = activationMap.getOrPut(uuid) { false }
             if (!castSpell) return
 

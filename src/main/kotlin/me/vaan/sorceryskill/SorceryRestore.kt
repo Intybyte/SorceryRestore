@@ -1,6 +1,7 @@
 package me.vaan.sorceryskill
 
 import dev.aurelium.auraskills.api.AuraSkillsApi
+import dev.aurelium.auraskills.api.event.skill.SkillsLoadEvent
 import dev.aurelium.auraskills.api.registry.NamespacedRegistry
 import me.vaan.CooldownManager
 import me.vaan.interfaces.SimpleDebugger
@@ -13,10 +14,12 @@ import me.vaan.sorceryskill.auraskills.listeners.ManaUseListener
 import me.vaan.sorceryskill.auraskills.sources.ManaSource
 import me.vaan.sorceryskill.utils.Utils
 import me.vaan.sorceryskill.utils.setCastCooldowns
+import org.bukkit.event.EventHandler
+import org.bukkit.event.Listener
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.logging.Logger
 
-class SorceryRestore : JavaPlugin() {
+class SorceryRestore : JavaPlugin(), Listener {
 
     companion object StaticStuff : SimpleDebugger {
         @JvmStatic
@@ -72,12 +75,17 @@ class SorceryRestore : JavaPlugin() {
         registry.registerSkill(SorcerySkill.SORCERY)
 
         cooldownManager = CooldownManager()
-        cooldownManager.setCastCooldowns()
         registerListeners()
+    }
+
+    @EventHandler
+    private fun registerCooldowns(event: SkillsLoadEvent) {
+        cooldownManager.setCastCooldowns()
     }
 
     private fun registerListeners() {
         val pm = this.server.pluginManager
+        pm.registerEvents(this, this)
         pm.registerEvents(ManaUseListener, this)
         pm.registerEvents(ManaRegenListener, this)
         pm.registerEvents(CastListener, this)
