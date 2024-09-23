@@ -12,6 +12,7 @@ import me.vaan.sorceryskill.auraskills.listeners.ManaRegenListener
 import me.vaan.sorceryskill.auraskills.listeners.ManaUseListener
 import me.vaan.sorceryskill.auraskills.sources.ManaSource
 import me.vaan.sorceryskill.utils.Utils
+import me.vaan.sorceryskill.utils.setCastCooldowns
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.logging.Logger
 
@@ -71,7 +72,7 @@ class SorceryRestore : JavaPlugin() {
         registry.registerSkill(SorcerySkill.SORCERY)
 
         cooldownManager = CooldownManager()
-        cooldownManager.setCooldown("CastListener", 5 * 1000L)
+        cooldownManager.setCastCooldowns()
         registerListeners()
     }
 

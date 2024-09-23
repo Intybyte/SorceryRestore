@@ -41,17 +41,17 @@ object CastListener : Listener {
 
             val castSpell = activationMap.getOrPut(uuid) { false }
             if (!castSpell) return
-            if (!SorceryRestore.cooldown().check("CastListener", player.name)) {
-                player.sendMessage("SPELL CASTING - On cooldown")
-                return
-            }
 
             val skillPlayer = SorceryRestore.api().getUser(uuid)
             val level = skillPlayer.getManaAbilityLevel(SorceryManaBlast.BLAST)
             val manaCost = SorceryManaBlast.BLAST.getManaCost(level)
             val skillDamage = SorceryManaBlast.BLAST.getValue(level)
 
-            val baseCooldown = SorceryManaBlast.BLAST.baseCooldown
+            if (!SorceryRestore.cooldown().check("cast_cooldown_$level", player.name)) {
+                player.sendMessage("SPELL CASTING - On cooldown")
+                return
+            }
+
             if(!skillPlayer.consumeMana(manaCost)) return
 
             val callEvent = ManaAbilityActivateEvent(player, skillPlayer, SorceryManaBlast.BLAST, 0, manaCost)

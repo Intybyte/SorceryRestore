@@ -13,7 +13,8 @@ object SorceryManaBlast {
         .valuePerLevel(0.75)
         .baseManaCost(15.0)
         .manaCostPerLevel(5.0)
-        .baseCooldown(5.0)
+        .baseCooldown(3.0)
+        .cooldownPerLevel(0.2)
         .unlock(6)
         .levelUp(6)
         .build()!!
