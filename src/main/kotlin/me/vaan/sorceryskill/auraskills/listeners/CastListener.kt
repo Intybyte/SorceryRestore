@@ -61,7 +61,7 @@ object CastListener : Listener {
         object : BukkitRunnable() {
             val hittedEntites = HashMap<UUID, Boolean>()
             val currentLocation: Location = shooter.eyeLocation.clone()
-            val velocity: Vector = currentLocation.direction.normalize().multiply(0.6)
+            val velocity: Vector = currentLocation.direction.normalize().multiply(1) //speed
             val maxDistance: Int = 50 // Maximum distance the projectile will travel (in blocks)
             var traveledDistance: Int = 0
 
@@ -85,9 +85,8 @@ object CastListener : Listener {
                     if (target.location.distance(currentLocation) >= 1.5) continue
 
                     hittedEntites[target.uniqueId] = true
-                    target.damage(damage, shooter)
-
-                    cancel()
+                    SorceryRestore.logger().info("Damage dealt $damage")
+                    target.damage(damage / 2.0, shooter)
                     return
                 }
 
