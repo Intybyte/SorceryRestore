@@ -38,12 +38,12 @@ object CastListener : Listener {
             val castSpell = activationMap.getOrPut(uuid) { false }
             if (!castSpell) return
 
-            val skillPlayer = SorceryRestore.api().getUser(uuid)
+            val skillPlayer = SorceryRestore.api.getUser(uuid)
             val level = skillPlayer.getManaAbilityLevel(SorceryManaBlast.BLAST)
             val manaCost = SorceryManaBlast.BLAST.getManaCost(level)
             val skillDamage = SorceryManaBlast.BLAST.getValue(level)
 
-            if (!SorceryRestore.cooldown().check("cast_cooldown_$level", player.name)) {
+            if (!SorceryRestore.cooldown.check("cast_cooldown_$level", player.name)) {
                 player.sendMessage("SPELL CASTING - On cooldown")
                 return
             }
@@ -63,12 +63,11 @@ object CastListener : Listener {
             val hitEntities = HashMap<UUID, Boolean>()
             val currentLocation: Location = shooter.eyeLocation.clone()
             val velocity: Vector = currentLocation.direction.normalize().multiply(1) //speed
-            val maxDistance: Int = StorageConfig.maxSpellDistance
             var traveledDistance: Int = 0
 
             override fun run() {
 
-                if (traveledDistance >= maxDistance) {
+                if (traveledDistance >= StorageConfig.maxSpellDistance) {
                     cancel()
                     return
                 }
@@ -86,8 +85,12 @@ object CastListener : Listener {
                     if (target.location.distance(currentLocation) >= StorageConfig.spellAreaOfEffect) continue
 
                     hitEntities[target.uniqueId] = true
-                    SorceryRestore.logger().info("Damage dealt $damage")
-                    target.damage(damage / 2.0, shooter)
+                    SorceryRestore.logger.info("Damage dealt $damage")
+
+                    val reduction = SorceryRestore.armorCalc.getDirectHitReduction(target, 0.0)
+                    target.damage(damage * reduction / 2.0, shooter)
+                    SorceryRestore.armorCalc.reduceArmorDurability(target)
+
                     return
                 }
 
@@ -95,6 +98,6 @@ object CastListener : Listener {
                     cancel()
                 }
             }
-        }.runTaskTimer(SorceryRestore.instance(), 0L, 1L)
+        }.runTaskTimer(SorceryRestore.instance, 0L, 1L)
     }
 }

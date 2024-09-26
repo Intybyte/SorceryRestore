@@ -15,7 +15,7 @@ object ManaUseListener : Listener {
         event.manaUsed
         val source = Utils.firstSource<ManaSource>()
 
-        val skillUser = SorceryRestore.api().getUser(event.player.uniqueId)
+        val skillUser = SorceryRestore.api.getUser(event.player.uniqueId)
         val award = source.xp * event.manaUsed
         SorceryRestore.debug("${this::class} awarded $award to ${event.player}, xp multiplier set to ${source.xp}")
         skillUser.addSkillXp(SorcerySkill.SORCERY, award)

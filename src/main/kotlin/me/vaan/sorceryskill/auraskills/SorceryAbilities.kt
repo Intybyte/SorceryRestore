@@ -56,7 +56,7 @@ enum class SorceryAbilities(val ability: CustomAbility, private val handler: Abi
 
     companion object {
         fun loadAbilities() {
-            val reg = SorceryRestore.registry()
+            val reg = SorceryRestore.registry
             entries.forEach { abilityEnum ->
                 reg.registerAbility(abilityEnum.ability)
             }

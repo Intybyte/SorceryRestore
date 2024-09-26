@@ -97,6 +97,13 @@
             <groupId>com.github.Intybyte</groupId>
             <artifactId>TimeUtils</artifactId>
             <version>83c4e7497d</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.Intybyte</groupId>
+            <artifactId>CalculationUtils</artifactId>
+            <version>8244da920f</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>

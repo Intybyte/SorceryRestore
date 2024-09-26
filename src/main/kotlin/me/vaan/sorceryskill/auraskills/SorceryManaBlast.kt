@@ -20,7 +20,7 @@ object SorceryManaBlast {
         .build()!!
 
     fun loadManaAbility() {
-        val reg = SorceryRestore.registry()
+        val reg = SorceryRestore.registry
         reg.registerManaAbility(BLAST)
     }
 }

@@ -5,6 +5,7 @@ import dev.aurelium.auraskills.api.event.skill.SkillsLoadEvent
 import dev.aurelium.auraskills.api.registry.NamespacedRegistry
 import me.vaan.CooldownManager
 import me.vaan.interfaces.SimpleDebugger
+import me.vaan.playerutils.ArmorCalculator
 import me.vaan.sorceryskill.auraskills.SorceryAbilities
 import me.vaan.sorceryskill.auraskills.SorceryManaBlast
 import me.vaan.sorceryskill.auraskills.SorcerySkill
@@ -24,46 +25,58 @@ class SorceryRestore : JavaPlugin(), Listener {
 
     companion object StaticStuff : SimpleDebugger {
         @JvmStatic
-        private lateinit var auraSkills: AuraSkillsApi
+        private lateinit var _auraSkills: AuraSkillsApi
         @JvmStatic
-        private lateinit var instance: SorceryRestore
+        private lateinit var _instance: SorceryRestore
         @JvmStatic
-        private lateinit var registry: NamespacedRegistry
+        private lateinit var _registry: NamespacedRegistry
         @JvmStatic
         private lateinit var log: Logger
         @JvmStatic
         private lateinit var cooldownManager: CooldownManager<String>
+        @JvmStatic
+        private val armorCalculator = ArmorCalculator()
 
-        fun api(): AuraSkillsApi {
-            return auraSkills
-        }
+        val api: AuraSkillsApi
+            get() {
+                return _auraSkills
+            }
 
-        fun instance(): SorceryRestore {
-            return instance
-        }
+        val instance: SorceryRestore
+            get() {
+                return _instance
+            }
 
-        fun registry(): NamespacedRegistry {
-            return registry
-        }
+        val registry: NamespacedRegistry
+            get() {
+                return _registry
+            }
 
         override fun debug(s: String) {
             if (StorageConfig.debug)
                 log.info(s)
         }
 
-        fun cooldown(): CooldownManager<String> {
-            return cooldownManager
-        }
+        val cooldown: CooldownManager<String>
+            get() {
+                return cooldownManager
+            }
 
-        fun logger(): Logger {
-            return log
-        }
+        val logger: Logger
+            get() {
+                return log
+            }
+
+        val armorCalc: ArmorCalculator
+            get() {
+                return armorCalculator
+            }
     }
 
     override fun onEnable() {
-        auraSkills = AuraSkillsApi.get()
-        instance = this
-        registry = auraSkills.useRegistry(Utils.PLUGIN_NAME, dataFolder)
+        _auraSkills = AuraSkillsApi.get()
+        _instance = this
+        _registry = _auraSkills.useRegistry(Utils.PLUGIN_NAME, dataFolder)
         log = this.logger
         saveResources()
 
@@ -71,7 +84,7 @@ class SorceryRestore : JavaPlugin(), Listener {
 
         SorceryAbilities.loadAbilities()
         SorceryManaBlast.loadManaAbility()
-        registry.registerSkill(SorcerySkill.SORCERY)
+        _registry.registerSkill(SorcerySkill.SORCERY)
 
         cooldownManager = CooldownManager()
         registerListeners()
@@ -91,7 +104,7 @@ class SorceryRestore : JavaPlugin(), Listener {
     }
 
     private fun registerSourceTypes() {
-        registry.registerSourceType("manasource") { source, context ->
+        _registry.registerSourceType("manasource") { source, context ->
             ManaSource(context.parseValues(source))
         }
     }
