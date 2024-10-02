@@ -1,8 +1,8 @@
 abilities:
   sorcery-restore/meditation:
     enabled: true
-    base_value: 1.0
-    value_per_level: 2.0
+    base_value: 5.0
+    value_per_level: 5.0
     unlock: 1
     level_up: 5
   sorcery-restore/sorcery_proficiency:
@@ -16,4 +16,10 @@ abilities:
     base_value: 1.0
     value_per_level: 1.0
     unlock: 3
+    level_up: 5
+  sorcery-restore/arcane_knowledge:
+    enabled: true
+    base_value: 5.0
+    value_per_level: 5.0
+    unlock: 4
     level_up: 5

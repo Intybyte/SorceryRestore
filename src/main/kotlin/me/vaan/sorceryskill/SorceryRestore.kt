@@ -12,6 +12,7 @@ import me.vaan.sorceryskill.auraskills.SorcerySkill
 import me.vaan.sorceryskill.auraskills.listeners.CastListener
 import me.vaan.sorceryskill.auraskills.listeners.ManaRegenListener
 import me.vaan.sorceryskill.auraskills.listeners.ManaUseListener
+import me.vaan.sorceryskill.auraskills.listeners.XpEarnListener
 import me.vaan.sorceryskill.auraskills.sources.ManaSource
 import me.vaan.sorceryskill.utils.StorageConfig
 import me.vaan.sorceryskill.utils.Utils
@@ -101,6 +102,7 @@ class SorceryRestore : JavaPlugin(), Listener {
         pm.registerEvents(ManaUseListener, this)
         pm.registerEvents(ManaRegenListener, this)
         pm.registerEvents(CastListener, this)
+        pm.registerEvents(XpEarnListener, this)
     }
 
     private fun registerSourceTypes() {

@@ -4,6 +4,7 @@ skills:
       - sorcery-restore/meditation
       - sorcery-restore/sorcery_proficiency
       - sorcery-restore/overload
+      - sorcery-restore/arcane_knowledge
     mana_ability: sorcery-restore/mana_blast
     options:
       enabled: true

@@ -4,6 +4,7 @@ import dev.aurelium.auraskills.api.ability.CustomAbility
 import dev.aurelium.auraskills.api.registry.NamespacedId
 import dev.aurelium.auraskills.api.user.SkillsUser
 import me.vaan.sorceryskill.SorceryRestore
+import me.vaan.sorceryskill.auraskills.handlers.arcaneKnowledgeHandler
 import me.vaan.sorceryskill.auraskills.handlers.meditationHandler
 import me.vaan.sorceryskill.auraskills.handlers.overloadHandler
 import me.vaan.sorceryskill.utils.Utils.PLUGIN_NAME
@@ -17,8 +18,8 @@ enum class SorceryAbilities(val ability: CustomAbility, private val handler: Abi
             .displayName("Meditation")
             .description("When shifting mana regeneration is increased by {value}%")
             .info("{value}% Mana Regen Boost on Shift ")
-            .baseValue(1.0)
-            .valuePerLevel(1.0)
+            .baseValue(5.0)
+            .valuePerLevel(5.0)
             .unlock(1)
             .levelUp(5)
             .build()!!
@@ -44,7 +45,17 @@ enum class SorceryAbilities(val ability: CustomAbility, private val handler: Abi
             .unlock(3)
             .levelUp(5)
             .build()!!
-        , ::overloadHandler);
+        , ::overloadHandler),
+    ARCANE_KNOWLEDGE(
+        CustomAbility.builder(NamespacedId.of(PLUGIN_NAME, "arcane_knowledge"))
+            .displayName("Arcane Knowledge")
+            .description("Gain {value}% more XP from every source.")
+            .baseValue(5.0)
+            .valuePerLevel(5.0)
+            .unlock(4)
+            .levelUp(5)
+            .build()!!
+        , ::arcaneKnowledgeHandler); // Erik the bro on discord helped out with ideas o7
 
     fun callHandler(player: Player, vararg objects: Any) {
         this.handler(this.ability, player, objects)
