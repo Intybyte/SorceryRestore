@@ -50,6 +50,7 @@ enum class SorceryAbilities(val ability: CustomAbility, private val handler: Abi
         CustomAbility.builder(NamespacedId.of(PLUGIN_NAME, "arcane_knowledge"))
             .displayName("Arcane Knowledge")
             .description("Gain {value}% more XP from every source.")
+            .info("+{value}% All XP")
             .baseValue(5.0)
             .valuePerLevel(5.0)
             .unlock(4)

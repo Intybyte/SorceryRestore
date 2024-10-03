@@ -17,7 +17,7 @@ import org.bukkit.util.Vector
 import java.util.*
 
 object CastListener : Listener {
-    val activationMap = HashMap<UUID, Boolean>()
+    private val activationMap = HashMap<UUID, Boolean>()
 
     @EventHandler
     fun onActivate(event: PlayerInteractEvent) {
@@ -30,7 +30,12 @@ object CastListener : Listener {
         if (event.action.isRightClick) {
             activationMap.compute(uuid) { _, v ->
                 val ret = if (v == null) true else !v
-                player.sendMessage("SPELL CASTING - " + if (ret) "Enabled" else "Disabled")
+                val message = SorceryRestore.transaltor["spell-casting"] + if (ret) {
+                    SorceryRestore.transaltor["enabled"]
+                } else {
+                    SorceryRestore.transaltor["disabled"]
+                }
+                player.sendMessage(message)
 
                 return@compute ret
             }
@@ -44,7 +49,8 @@ object CastListener : Listener {
             val skillDamage = SorceryManaBlast.BLAST.getValue(level)
 
             if (!SorceryRestore.cooldown.check("cast_cooldown_$level", player.name)) {
-                player.sendMessage("SPELL CASTING - On cooldown")
+                val message = SorceryRestore.transaltor["spell-casting"] + SorceryRestore.transaltor["cooldown"]
+                player.sendMessage(message)
                 return
             }
 
@@ -54,11 +60,11 @@ object CastListener : Listener {
             Bukkit.getServer().pluginManager.callEvent(callEvent)
 
             if (!callEvent.isCancelled)
-                launchProjectile(player, skillDamage)
+                attackSpell(player, skillDamage)
         }
     }
 
-    private fun launchProjectile(shooter: Player, damage: Double) {
+    private fun attackSpell(shooter: Player, damage: Double) {
         object : BukkitRunnable() {
             val hitEntities = HashMap<UUID, Boolean>()
             val currentLocation: Location = shooter.eyeLocation.clone()
@@ -85,7 +91,7 @@ object CastListener : Listener {
                     if (target.location.distance(currentLocation) >= StorageConfig.spellAreaOfEffect) continue
 
                     hitEntities[target.uniqueId] = true
-                    SorceryRestore.logger.info("Damage dealt $damage")
+                    SorceryRestore.debug("Damage dealt $damage by ${shooter.name}")
 
                     val reduction = SorceryRestore.armorCalc.getDirectHitReduction(target, 0.0)
                     target.damage(damage * reduction / 2.0, shooter)

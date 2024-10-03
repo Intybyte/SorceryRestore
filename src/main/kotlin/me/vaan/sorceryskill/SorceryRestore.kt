@@ -14,9 +14,7 @@ import me.vaan.sorceryskill.auraskills.listeners.ManaRegenListener
 import me.vaan.sorceryskill.auraskills.listeners.ManaUseListener
 import me.vaan.sorceryskill.auraskills.listeners.XpEarnListener
 import me.vaan.sorceryskill.auraskills.sources.ManaSource
-import me.vaan.sorceryskill.utils.StorageConfig
-import me.vaan.sorceryskill.utils.Utils
-import me.vaan.sorceryskill.utils.setCastCooldowns
+import me.vaan.sorceryskill.utils.*
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.plugin.java.JavaPlugin
@@ -37,6 +35,8 @@ class SorceryRestore : JavaPlugin(), Listener {
         private lateinit var cooldownManager: CooldownManager<String>
         @JvmStatic
         private val armorCalculator = ArmorCalculator()
+        @JvmStatic
+        private lateinit var _translator: TranslationHandler
 
         val api: AuraSkillsApi
             get() {
@@ -72,6 +72,9 @@ class SorceryRestore : JavaPlugin(), Listener {
             get() {
                 return armorCalculator
             }
+
+        val transaltor: TranslationHandler
+            get() =_translator
     }
 
     override fun onEnable() {
@@ -79,7 +82,9 @@ class SorceryRestore : JavaPlugin(), Listener {
         _instance = this
         _registry = _auraSkills.useRegistry(Utils.PLUGIN_NAME, dataFolder)
         log = this.logger
+
         saveResources()
+        _translator = TranslationHandler(this)
 
         registerSourceTypes()
 
@@ -112,12 +117,14 @@ class SorceryRestore : JavaPlugin(), Listener {
     }
 
     private fun saveResources() {
+        PluginFileHandler(this).saveDefaultResources()
+        /*
         saveResource("sources/sorcery.yml", false)
         saveResource("rewards/sorcery.yml", false)
         saveResource("abilities.yml", false)
         saveResource("skills.yml", false)
         saveResource("mana_abilities.yml", false)
-        saveDefaultConfig()
+        saveDefaultConfig()*/
 
         StorageConfig.debug = config.getBoolean("debug")
         StorageConfig.maxSpellDistance = config.getInt("max-spell-distance")
