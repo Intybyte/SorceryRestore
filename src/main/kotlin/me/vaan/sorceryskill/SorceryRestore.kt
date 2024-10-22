@@ -23,82 +23,56 @@ import java.util.logging.Logger
 class SorceryRestore : JavaPlugin(), Listener {
 
     companion object StaticStuff : SimpleDebugger {
-        @JvmStatic
-        private lateinit var _auraSkills: AuraSkillsApi
-        @JvmStatic
-        private lateinit var _instance: SorceryRestore
-        @JvmStatic
-        private lateinit var _registry: NamespacedRegistry
-        @JvmStatic
-        private lateinit var log: Logger
-        @JvmStatic
-        private lateinit var cooldownManager: CooldownManager<String>
-        @JvmStatic
-        private val armorCalculator = ArmorCalculator()
-        @JvmStatic
-        private lateinit var _translator: TranslationHandler
 
-        val api: AuraSkillsApi
-            get() {
-                return _auraSkills
-            }
+        lateinit var api: AuraSkillsApi
+            private set
 
-        val instance: SorceryRestore
-            get() {
-                return _instance
-            }
+        lateinit var instance: SorceryRestore
+            private set
 
-        val registry: NamespacedRegistry
-            get() {
-                return _registry
-            }
+        lateinit var registry: NamespacedRegistry
+            private set
+
+        lateinit var cooldown: CooldownManager<String>
+            private set
+
+        lateinit var log: Logger
+            private set
+
+        lateinit var armorCalc: ArmorCalculator
+            private set
+
+        lateinit var transaltor: TranslationHandler
+            private set
 
         override fun debug(s: String) {
             if (StorageConfig.debug)
                 log.info(s)
         }
-
-        val cooldown: CooldownManager<String>
-            get() {
-                return cooldownManager
-            }
-
-        val logger: Logger
-            get() {
-                return log
-            }
-
-        val armorCalc: ArmorCalculator
-            get() {
-                return armorCalculator
-            }
-
-        val transaltor: TranslationHandler
-            get() =_translator
     }
 
     override fun onEnable() {
-        _auraSkills = AuraSkillsApi.get()
-        _instance = this
-        _registry = _auraSkills.useRegistry(Utils.PLUGIN_NAME, dataFolder)
+        api = AuraSkillsApi.get()
+        instance = this
+        registry = api.useRegistry(Utils.PLUGIN_NAME, dataFolder)
         log = this.logger
 
         saveResources()
-        _translator = TranslationHandler(this)
+        transaltor = TranslationHandler(this)
 
         registerSourceTypes()
 
         SorceryAbilities.loadAbilities()
         SorceryManaBlast.loadManaAbility()
-        _registry.registerSkill(SorcerySkill.SORCERY)
+        registry.registerSkill(SorcerySkill.SORCERY)
 
-        cooldownManager = CooldownManager()
+        cooldown = CooldownManager()
         registerListeners()
     }
 
     @EventHandler
     private fun registerCooldowns(event: SkillsLoadEvent) {
-        cooldownManager.setCastCooldowns()
+        cooldown.setCastCooldowns()
     }
 
     private fun registerListeners() {
@@ -111,20 +85,13 @@ class SorceryRestore : JavaPlugin(), Listener {
     }
 
     private fun registerSourceTypes() {
-        _registry.registerSourceType("manasource") { source, context ->
+        registry.registerSourceType("manasource") { source, context ->
             ManaSource(context.parseValues(source))
         }
     }
 
     private fun saveResources() {
         PluginFileHandler(this).saveDefaultResources()
-        /*
-        saveResource("sources/sorcery.yml", false)
-        saveResource("rewards/sorcery.yml", false)
-        saveResource("abilities.yml", false)
-        saveResource("skills.yml", false)
-        saveResource("mana_abilities.yml", false)
-        saveDefaultConfig()*/
 
         StorageConfig.debug = config.getBoolean("debug")
         StorageConfig.maxSpellDistance = config.getInt("max-spell-distance")
