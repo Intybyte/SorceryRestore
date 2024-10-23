@@ -5,6 +5,7 @@ skills:
       - sorcery-restore/sorcery_proficiency
       - sorcery-restore/overload
       - sorcery-restore/arcane_knowledge
+      - - sorcery-restore/totem_power
     mana_ability: sorcery-restore/mana_blast
     options:
       enabled: true

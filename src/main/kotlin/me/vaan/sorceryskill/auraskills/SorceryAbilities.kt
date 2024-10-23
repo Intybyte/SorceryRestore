@@ -2,11 +2,11 @@ package me.vaan.sorceryskill.auraskills
 
 import dev.aurelium.auraskills.api.ability.CustomAbility
 import dev.aurelium.auraskills.api.registry.NamespacedId
-import dev.aurelium.auraskills.api.user.SkillsUser
 import me.vaan.sorceryskill.SorceryRestore
 import me.vaan.sorceryskill.auraskills.handlers.arcaneKnowledgeHandler
 import me.vaan.sorceryskill.auraskills.handlers.meditationHandler
 import me.vaan.sorceryskill.auraskills.handlers.overloadHandler
+import me.vaan.sorceryskill.auraskills.handlers.totemPowerHandler
 import me.vaan.sorceryskill.utils.Utils.PLUGIN_NAME
 import org.bukkit.entity.Player
 
@@ -17,7 +17,7 @@ enum class SorceryAbilities(val ability: CustomAbility, private val handler: Abi
         CustomAbility.builder(NamespacedId.of(PLUGIN_NAME, "meditation"))
             .displayName("Meditation")
             .description("When shifting mana regeneration is increased by {value}%")
-            .info("{value}% Mana Regen Boost on Shift ")
+            .info("{value}% Mana Regen Boost on Shift")
             .baseValue(5.0)
             .valuePerLevel(5.0)
             .unlock(1)
@@ -28,7 +28,7 @@ enum class SorceryAbilities(val ability: CustomAbility, private val handler: Abi
         CustomAbility.builder(NamespacedId.of(PLUGIN_NAME, "sorcery_proficiency"))
             .displayName("Sorcery Proficiency")
             .description("Gain {value}% more XP from sorcery sources.")
-            .info("+{value}% Sorcery XP ")
+            .info("+{value}% Sorcery XP")
             .baseValue(10.0)
             .valuePerLevel(10.0)
             .unlock(2)
@@ -56,14 +56,23 @@ enum class SorceryAbilities(val ability: CustomAbility, private val handler: Abi
             .unlock(4)
             .levelUp(5)
             .build()!!
-        , ::arcaneKnowledgeHandler); // Erik the bro on discord helped out with ideas o7
+        , ::arcaneKnowledgeHandler), // Erik the bro on discord helped out with ideas o7
+    TOTEM_POWER(
+        CustomAbility.builder(NamespacedId.of(PLUGIN_NAME, "totem_power"))
+            .displayName("Totem Power")
+            .description("When holding a totem of undying in your off hand, you gain +{value} strength and wisdom.")
+            .info("+{value} Strength & Wisdom with Totem")
+            .baseValue(1.0)
+            .valuePerLevel(1.0)
+            .unlock(5)
+            .levelUp(5)
+            .build()!!
+        , ::totemPowerHandler
+    );
+
 
     fun callHandler(player: Player, vararg objects: Any) {
         this.handler(this.ability, player, objects)
-    }
-
-    fun getValue(user: SkillsUser): Double {
-        return this.ability.getValue(user.getAbilityLevel(this.ability))
     }
 
     companion object {

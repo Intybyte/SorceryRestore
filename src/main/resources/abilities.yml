@@ -23,3 +23,9 @@ abilities:
     value_per_level: 5.0
     unlock: 4
     level_up: 5
+  sorcery-restore/totem_power:
+    enabled: true
+    base_value: 1.0
+    value_per_level: 1.0
+    unlock: 5
+    level_up: 5

@@ -15,9 +15,11 @@ import me.vaan.sorceryskill.auraskills.listeners.ManaUseListener
 import me.vaan.sorceryskill.auraskills.listeners.XpEarnListener
 import me.vaan.sorceryskill.auraskills.sources.ManaSource
 import me.vaan.sorceryskill.utils.*
+import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.plugin.java.JavaPlugin
+import org.bukkit.scheduler.BukkitRunnable
 import java.util.logging.Logger
 
 class SorceryRestore : JavaPlugin(), Listener {
@@ -68,6 +70,14 @@ class SorceryRestore : JavaPlugin(), Listener {
 
         cooldown = CooldownManager()
         registerListeners()
+
+        object : BukkitRunnable() {
+            override fun run() {
+                for (player in Bukkit.getOnlinePlayers()) {
+                    SorceryAbilities.TOTEM_POWER.callHandler(player)
+                }
+            }
+        }.runTaskTimer(this, 0, 10L)
     }
 
     @EventHandler
