@@ -4,11 +4,12 @@ import dev.aurelium.auraskills.api.ability.CustomAbility
 import dev.aurelium.auraskills.api.event.mana.ManaRegenerateEvent
 import me.vaan.sorceryskill.SorceryRestore
 import me.vaan.sorceryskill.utils.Utils
+import me.vaan.sorceryskill.utils.failsChecks
 import org.bukkit.entity.Player
 
 fun meditationHandler(ability: CustomAbility, player: Player, args: Array<out Any>) {
     if (!player.isSneaking) return
-    if (!ability.isEnabled) return
+    if (ability.failsChecks(player)) return
 
     val event = args[0] as ManaRegenerateEvent
 

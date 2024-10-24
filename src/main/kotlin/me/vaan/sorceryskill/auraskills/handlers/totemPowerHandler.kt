@@ -4,6 +4,7 @@ import dev.aurelium.auraskills.api.ability.CustomAbility
 import dev.aurelium.auraskills.api.stat.StatModifier
 import dev.aurelium.auraskills.api.stat.Stats
 import me.vaan.sorceryskill.utils.Utils
+import me.vaan.sorceryskill.utils.failsChecks
 import me.vaan.sorceryskill.utils.getSkillPlayer
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -11,7 +12,7 @@ import org.bukkit.entity.Player
 private const val MODIFIER_NAME = "AbilityModifier-TotemPower"
 
 fun totemPowerHandler(ability: CustomAbility, player: Player, args: Array<out Any>) {
-    if (!ability.isEnabled) return
+    if (ability.failsChecks(player)) return
 
     val value = Utils.getSkillValue(player, ability) / 100.0
     val skillUser = player.getSkillPlayer() ?: return

@@ -1,9 +1,11 @@
 package me.vaan.sorceryskill.utils
 
 import dev.aurelium.auraskills.api.AuraSkillsApi
+import dev.aurelium.auraskills.api.ability.Ability
 import dev.aurelium.auraskills.api.user.SkillsUser
 import me.vaan.CooldownManager
 import me.vaan.sorceryskill.auraskills.SorceryManaBlast
+import me.vaan.sorceryskill.utils.Utils.abilityContext
 import org.bukkit.entity.Player
 
 fun <T> CooldownManager<T>.setCastCooldowns() {
@@ -21,4 +23,9 @@ fun Player.getSkillPlayer(): SkillsUser? {
     val api = AuraSkillsApi.get()
     val skillPlayer = api.getUser(this.uniqueId)
     return skillPlayer
+}
+
+
+fun Ability.failsChecks(player: Player): Boolean {
+    return abilityContext.failsChecks(player, this)
 }

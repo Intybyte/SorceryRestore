@@ -3,10 +3,11 @@ package me.vaan.sorceryskill.auraskills.handlers
 import dev.aurelium.auraskills.api.ability.CustomAbility
 import dev.aurelium.auraskills.api.event.mana.ManaAbilityActivateEvent
 import me.vaan.sorceryskill.utils.Utils
+import me.vaan.sorceryskill.utils.failsChecks
 import org.bukkit.entity.Player
 
 fun overloadHandler(ability: CustomAbility, player: Player, args: Array<out Any>) {
-    if (!ability.isEnabled) return
+    if (ability.failsChecks(player)) return
 
     val event = args[0] as ManaAbilityActivateEvent
     val value = Utils.getSkillValue(player, ability) / 100.0
